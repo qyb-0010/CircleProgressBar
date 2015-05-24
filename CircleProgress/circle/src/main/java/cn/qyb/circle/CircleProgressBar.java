@@ -22,7 +22,7 @@ public class CircleProgressBar extends View {
     private Paint mUnreachPaint;
     private Paint mTextPaint;
 
-    private String mText = "0%";
+    private String mText = "0";
     private String mUnit = "%";
     private float mTextSize;
 
