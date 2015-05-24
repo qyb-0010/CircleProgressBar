@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="unit" format="string"/>
+        <attr name="reach_bar_color" format="color"/>
+        <attr name="unreach_bar_color" format="color"/>
+        <attr name="reach_bar_height" format="dimension"/>
+        <attr name="unreach_bar_height" format="dimension"/>
+
+        <attr name="max" format="integer"/>
+        <attr name="progress" format="integer"/>
+    </declare-styleable>
+</resources>

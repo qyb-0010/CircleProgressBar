@@ -1,6 +1,7 @@
 package cn.qyb.circle;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,8 +23,15 @@ public class CircleProgressBar extends View {
     private Paint mTextPaint;
 
     private String mText = "0%";
-    private float mTextSize = 40;
+    private String mUnit = "%";
+    private float mTextSize;
+
     private int mTextColor;
+    private int mReachColor;
+    private int mUnReachColor;
+
+    private float mReachBarH;
+    private float mUnReachBarH;
 
     private static final int default_text_color = Color.rgb(66, 145, 241);
     private static final int default_reached_color = Color.rgb(66, 145, 241);
@@ -35,13 +43,24 @@ public class CircleProgressBar extends View {
     private RectF mRect = new RectF();
 
     public CircleProgressBar(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+        this(context, attrs, 0);
     }
 
     public CircleProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressBar, defStyleAttr, 0);
+        mTextColor = a.getColor(R.styleable.CircleProgressBar_textColor, default_text_color);
+        mReachColor = a.getColor(R.styleable.CircleProgressBar_reach_bar_color, default_reached_color);
+        mUnReachColor = a.getColor(R.styleable.CircleProgressBar_unreach_bar_color, default_unreached_color);
 
+        mTextSize = a.getDimension(R.styleable.CircleProgressBar_textSize, 40);
+        mUnit = a.getString(R.styleable.CircleProgressBar_unit);
+        mReachBarH = a.getDimension(R.styleable.CircleProgressBar_reach_bar_height, 10);
+        mUnReachBarH = a.getDimension(R.styleable.CircleProgressBar_unreach_bar_height, 6);
+
+        mMaxProgress = a.getInt(R.styleable.CircleProgressBar_max, 100);
+        mProgress = a.getInt(R.styleable.CircleProgressBar_progress, 0);
+        a.recycle();
         init();
     }
 
@@ -49,22 +68,25 @@ public class CircleProgressBar extends View {
         mReachPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mUnreachPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
-        mReachPaint.setColor(default_reached_color);
-        mUnreachPaint.setColor(default_unreached_color);
+        mReachPaint.setColor(mReachColor);
+        mUnreachPaint.setColor(mUnReachColor);
         mTextPaint.setColor(default_text_color);
 
         mReachPaint.setStyle(Paint.Style.STROKE);
         mUnreachPaint.setStyle(Paint.Style.STROKE);
-        mReachPaint.setStrokeWidth(10); // TODO
-        mUnreachPaint.setStrokeWidth(5); // TODO
+        mReachPaint.setStrokeWidth(mReachBarH);
+        mUnreachPaint.setStrokeWidth(mUnReachBarH);
 
         mOffset = Math.max(mReachPaint.getStrokeWidth(), mUnreachPaint.getStrokeWidth()) / 2;
+        if (mUnit == null) {
+            mUnit = "%";
+        }
 
         initPaint();
     }
 
     private void initPaint() {
-        mTextPaint.setColor(default_text_color);
+        mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
     }
 
