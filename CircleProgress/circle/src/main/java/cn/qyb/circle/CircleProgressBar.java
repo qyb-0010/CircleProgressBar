@@ -9,7 +9,6 @@ import android.graphics.RectF;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class CircleProgressBar extends View {
@@ -92,17 +91,16 @@ public class CircleProgressBar extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.GREEN);
+//        canvas.drawColor(Color.GREEN);
         float angle = getProgress() / (1.0f * getMaxProgress()) * 360;
         float startAngle = 90;
         canvas.drawArc(mRect, 0, 360, false, mUnreachPaint);
         canvas.drawArc(mRect, startAngle, angle, false, mReachPaint);
 
-        // TODO draw text
         if (!TextUtils.isEmpty(mText)) {
             float height = mTextPaint.descent() - mTextPaint.ascent();
             mTextPaint.setTextAlign(Paint.Align.CENTER);
-            canvas.drawText(getProgress() + "%", getWidth() / 2.0f, (getHeight() + height) / 2, mTextPaint);
+            canvas.drawText(getProgress() + mUnit, getWidth() / 2.0f, (getHeight() + height) / 2, mTextPaint);
         }
     }
 
