@@ -47,6 +47,7 @@ public class CircleProgressBar extends View {
     private RectF mRect = new RectF();
 
     private int mOrientation;
+    private boolean mTextVisible;
 
     private static final String INSTANCE_STATE = "saved_instance";
     private static final String INSTANCE_TEXT_COLOR = "instance_text_color";
@@ -80,6 +81,7 @@ public class CircleProgressBar extends View {
         mProgress = a.getInt(R.styleable.CircleProgressBar_progress, 0);
 
         mOrientation = a.getInt(R.styleable.CircleProgressBar_startPos, BOTTOM);
+        mTextVisible = a.getInt(R.styleable.CircleProgressBar_textVisible, 1) == 1;
 
         a.recycle();
         init();
@@ -127,7 +129,7 @@ public class CircleProgressBar extends View {
         canvas.drawArc(mRect, 0, 360, false, mUnreachPaint);
         canvas.drawArc(mRect, startAngle, angle, false, mReachPaint);
 
-        if (!TextUtils.isEmpty(mText)) {
+        if (!TextUtils.isEmpty(mText) && mTextVisible) {
             float height = mTextPaint.descent() - mTextPaint.ascent();
             mTextPaint.setTextAlign(Paint.Align.CENTER);
             canvas.drawText(getProgress() + mUnit, getWidth() / 2.0f, (getHeight() + height) / 2, mTextPaint);

@@ -18,8 +18,8 @@
             <enum name="bottom" value="4"/>
         </attr>
         <attr name="textVisible" format="enum">
-            <enum name="visible" value="0"/>
-            <enum name="invisible" value="1"/>
+            <enum name="visible" value="1"/>
+            <enum name="invisible" value="0"/>
         </attr>
     </declare-styleable>
 </resources>
