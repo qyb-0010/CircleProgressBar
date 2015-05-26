@@ -11,5 +11,15 @@
 
         <attr name="max" format="integer"/>
         <attr name="progress" format="integer"/>
+        <attr name="startPos" format="enum">
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+            <enum name="top" value="3"/>
+            <enum name="bottom" value="4"/>
+        </attr>
+        <attr name="textVisible" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>

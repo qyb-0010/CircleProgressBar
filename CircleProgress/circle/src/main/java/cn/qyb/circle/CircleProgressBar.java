@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -14,6 +15,10 @@ import android.view.View;
 public class CircleProgressBar extends View {
 
     private static final int MIN_SIZE = 100;
+    private static final int LEFT = 1;
+    private static final int RIGHT = 2;
+    private static final int TOP = 3;
+    private static final int BOTTOM = 4;
 
     private float mOffset;
 
@@ -41,6 +46,20 @@ public class CircleProgressBar extends View {
 
     private RectF mRect = new RectF();
 
+    private int mOrientation;
+
+    private static final String INSTANCE_STATE = "saved_instance";
+    private static final String INSTANCE_TEXT_COLOR = "instance_text_color";
+    private static final String INSTANCE_TEXT_SIZE = "instance_text_size";
+    private static final String INSTANCE_REACH_WIDTH = "instance_reach_width";
+    private static final String INSTANCE_REACH_COLOR = "instance_reach_color";
+    private static final String INSTANCE_UNREACH_WIDTH = "instance_unreach_width";
+    private static final String INSTANCE_UNREACH_COLOR = "instance_unreach_color";
+    private static final String INSTANCE_MAX = "instance_max";
+    private static final String INSTANCE_PROGRESS = "instance_progress";
+    private static final String INSTANCE_TEXT = "instance_text";
+    private static final String INSTANCE_UNIT = "instance_unit";
+
     public CircleProgressBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -59,6 +78,9 @@ public class CircleProgressBar extends View {
 
         mMaxProgress = a.getInt(R.styleable.CircleProgressBar_max, 100);
         mProgress = a.getInt(R.styleable.CircleProgressBar_progress, 0);
+
+        mOrientation = a.getInt(R.styleable.CircleProgressBar_startPos, BOTTOM);
+
         a.recycle();
         init();
     }
@@ -91,9 +113,17 @@ public class CircleProgressBar extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-//        canvas.drawColor(Color.GREEN);
         float angle = getProgress() / (1.0f * getMaxProgress()) * 360;
-        float startAngle = 90;
+        float startAngle;
+        if (mOrientation == BOTTOM) {
+            startAngle = 90;
+        } else if (mOrientation == RIGHT) {
+            startAngle = 0;
+        } else if (mOrientation == TOP) {
+            startAngle = 270;
+        } else {
+            startAngle = 180;
+        }
         canvas.drawArc(mRect, 0, 360, false, mUnreachPaint);
         canvas.drawArc(mRect, startAngle, angle, false, mReachPaint);
 
@@ -187,13 +217,40 @@ public class CircleProgressBar extends View {
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        //TODO
-        return super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(INSTANCE_STATE, super.onSaveInstanceState());
+        bundle.putInt(INSTANCE_TEXT_COLOR, mTextColor);
+        bundle.putFloat(INSTANCE_TEXT_SIZE, mTextSize);
+        bundle.putInt(INSTANCE_REACH_COLOR, mReachColor);
+        bundle.putInt(INSTANCE_UNREACH_COLOR, mUnReachColor);
+        bundle.putFloat(INSTANCE_REACH_WIDTH, mReachBarH);
+        bundle.putFloat(INSTANCE_UNREACH_WIDTH, mUnReachBarH);
+        bundle.putInt(INSTANCE_MAX, getMaxProgress());
+        bundle.putInt(INSTANCE_PROGRESS, getProgress());
+        bundle.putString(INSTANCE_TEXT, mText);
+        bundle.putString(INSTANCE_UNIT, mUnit);
+        return bundle;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        //TODO
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            mTextColor = bundle.getInt(INSTANCE_TEXT_COLOR);
+            mTextSize = bundle.getFloat(INSTANCE_TEXT_SIZE);
+            mReachColor = bundle.getInt(INSTANCE_REACH_COLOR);
+            mUnReachColor = bundle.getInt(INSTANCE_UNREACH_COLOR);
+            mReachBarH = bundle.getFloat(INSTANCE_REACH_WIDTH);
+            mUnReachBarH = bundle.getFloat(INSTANCE_UNREACH_WIDTH);
+            mText = bundle.getString(INSTANCE_TEXT);
+            mUnit = bundle.getString(INSTANCE_UNIT);
+            mMaxProgress = bundle.getInt(INSTANCE_MAX);
+            mProgress = bundle.getInt(INSTANCE_PROGRESS);
+            initPaint();
+            super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE));
+            return;
+        }
         super.onRestoreInstanceState(state);
     }
+
 }
