@@ -116,7 +116,6 @@ public class NumberProgressBar extends View {
         // baseline
         mTextEndPos = (int) ((getHeight() / 2.0f) - ((mTextPaint.descent() + mTextPaint.ascent()) / 2.0f));
 
-
         if ((mTextStartPos + textWidth) >= getWidth() - getPaddingRight() ) {
 
         }

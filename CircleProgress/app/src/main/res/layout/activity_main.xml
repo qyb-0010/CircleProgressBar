@@ -12,5 +12,11 @@
         app:unreach_bar_height="5dp"
         app:startPos="top"/>
 
+    <Button
+        android:id="@+id/dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="show dialog"/>
+
 
 </LinearLayout>

@@ -116,14 +116,14 @@ public class CircleProgressBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         float angle = getProgress() / (1.0f * getMaxProgress()) * 360;
-        float startAngle;
+        float startAngle = 90;
         if (mOrientation == BOTTOM) {
             startAngle = 90;
         } else if (mOrientation == RIGHT) {
             startAngle = 0;
         } else if (mOrientation == TOP) {
             startAngle = 270;
-        } else {
+        } else if (mOrientation == LEFT) {
             startAngle = 180;
         }
         canvas.drawArc(mRect, 0, 360, false, mUnreachPaint);
@@ -186,8 +186,8 @@ public class CircleProgressBar extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int height = 0;
-        int width = 0;
+        int height;
+        int width;
         int w = MeasureSpec.getSize(widthMeasureSpec);
         int h = MeasureSpec.getSize(heightMeasureSpec);
         int wMode = MeasureSpec.getMode(widthMeasureSpec);
