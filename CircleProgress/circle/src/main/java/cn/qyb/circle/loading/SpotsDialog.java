@@ -17,11 +17,11 @@ public class SpotsDialog extends Dialog {
     private FrameLayout mProgress;
     private TextView mTitle;
 
-    private DotView[] dots;
+    private DotView[] mDots;
 
-    private int count = 5;
+    private int mCount = 5;
     private AnimatorPlayer mPlayer;
-    private int progressWidth;
+    private int mDialogWidth;
 
     public SpotsDialog(Context context) {
         super(context);
@@ -32,27 +32,27 @@ public class SpotsDialog extends Dialog {
     private void initViews(Context context) {
         mProgress = (FrameLayout) findViewById(R.id.progress);
         mTitle = (TextView) findViewById(R.id.dialog_title);
-        progressWidth = getScreenWidth(context);
-//        init();
+        //TODO change to dialog width
+        mDialogWidth = getScreenWidth(context);
     }
 
     private void init() {
-        dots = new DotView[count];
-        for (int i = 0; i < dots.length; i++) {
+        mDots = new DotView[mCount];
+        for (int i = 0; i < mDots.length; i++) {
             DotView view = new DotView(getContext());
-            view.setTarget(progressWidth);
+            view.setTarget(mDialogWidth);
             view.setXFactor(-1f);
             mProgress.addView(view);
-            dots[i] = view;
+            mDots[i] = view;
         }
         mPlayer = new AnimatorPlayer(createAnimations());
         mPlayer.play();
     }
 
     private Animator[] createAnimations() {
-        Animator[] animators = new Animator[count];
-        for (int i = 0; i < dots.length; i++) {
-            Animator move = ObjectAnimator.ofFloat(dots[i], "xFactor", 0, 1);
+        Animator[] animators = new Animator[mCount];
+        for (int i = 0; i < mDots.length; i++) {
+            Animator move = ObjectAnimator.ofFloat(mDots[i], "xFactor", 0, 1);
             move.setDuration(1500);
             move.setInterpolator(new SpeedInterpolator());
             move.setStartDelay(100 * i);
@@ -90,7 +90,7 @@ public class SpotsDialog extends Dialog {
     }
 
     public SpotsDialog withSpotNumber(int number) {
-        count = number;
+        mCount = number;
         return this;
     }
 
