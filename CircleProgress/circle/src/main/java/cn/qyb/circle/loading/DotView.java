@@ -10,8 +10,11 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class DotView extends View {
 
+    private static final int DEFAULT_RADIUS = 10;
+
     private int mTarget;
     private Paint mPaint;
+    private int mRadius;
 
     public DotView(Context context) {
         super(context);
@@ -22,6 +25,13 @@ public class DotView extends View {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mPaint.setColor(Color.BLUE);
+
+        mRadius = DEFAULT_RADIUS;
+    }
+
+    public void setColor(int color) {
+        mPaint.setColor(color);
+        invalidate();
     }
 
     public int getTarget() {
@@ -40,8 +50,17 @@ public class DotView extends View {
         return ViewHelper.getX(this);
     }
 
+    public int getRadius() {
+        return mRadius;
+    }
+
+    public void setRadius(int radius) {
+        this.mRadius = radius;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(12, 12, 12, mPaint);
+        canvas.drawCircle(mRadius, mRadius, mRadius, mPaint);
     }
 }

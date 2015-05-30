@@ -1,6 +1,7 @@
 package cn.qyb.circleprogress;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,27 +31,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mCP = (CircleProgressBar) findViewById(R.id.circle_progress);
         btn = (Button) findViewById(R.id.dialog);
         btn.setOnClickListener(this);
-//        Timer timer = new Timer();
-//        timer.schedule(new TimerTask() {
-//            @Override
-//            public void run() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        mCP.setProgress(mProgress);
-//                        mProgress ++;
-//                    }
-//                });
-//            }
-//        }, 1000, 100);
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCP.setProgress(mProgress);
+                        mProgress ++;
+                    }
+                });
+            }
+        }, 1000, 100);
     }
 
     @Override
     public void onClick(View v) {
         if (v == btn) {
             SpotsDialog dialog = new SpotsDialog(this);
-            dialog.withSpotNumber(3)
+            dialog.withSpotNumber(4)
                     .withTitle("updating")
+                    .withSpotColors(Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN)
+                    .withSpotRadius(6)
                     .show();
         }
     }

@@ -2,7 +2,9 @@ package cn.qyb.circle.loading;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.DisplayMetrics;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -22,9 +24,17 @@ public class SpotsDialog extends Dialog {
     private int mCount = 5;
     private AnimatorPlayer mPlayer;
     private int mDialogWidth;
+    private int mSpotRadius = 0;
+
+    private int[] mColors;
 
     public SpotsDialog(Context context) {
-        super(context);
+        this(context, 0);
+    }
+
+    public SpotsDialog(Context context, int theme) {
+        super(context, theme);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog);
         initViews(context);
     }
@@ -32,6 +42,7 @@ public class SpotsDialog extends Dialog {
     private void initViews(Context context) {
         mProgress = (FrameLayout) findViewById(R.id.progress);
         mTitle = (TextView) findViewById(R.id.dialog_title);
+        mColors = new int[]{Color.BLUE};
         //TODO change to dialog width
         mDialogWidth = getScreenWidth(context);
     }
@@ -42,6 +53,10 @@ public class SpotsDialog extends Dialog {
             DotView view = new DotView(getContext());
             view.setTarget(mDialogWidth);
             view.setXFactor(-1f);
+            view.setColor(mColors[i % mColors.length]);
+            if (mSpotRadius > 0) {
+                view.setRadius(mSpotRadius);
+            }
             mProgress.addView(view);
             mDots[i] = view;
         }
@@ -91,6 +106,16 @@ public class SpotsDialog extends Dialog {
 
     public SpotsDialog withSpotNumber(int number) {
         mCount = number;
+        return this;
+    }
+
+    public SpotsDialog withSpotColors(int... colors) {
+        mColors = colors;
+        return this;
+    }
+
+    public SpotsDialog withSpotRadius(int radius) {
+        mSpotRadius = radius;
         return this;
     }
 

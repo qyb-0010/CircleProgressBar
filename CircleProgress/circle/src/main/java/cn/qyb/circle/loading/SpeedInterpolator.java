@@ -2,9 +2,6 @@ package cn.qyb.circle.loading;
 
 import android.view.animation.Interpolator;
 
-/**
- * Created by qiaoyubo on 2015/5/30.
- */
 public class SpeedInterpolator implements Interpolator {
 
 
