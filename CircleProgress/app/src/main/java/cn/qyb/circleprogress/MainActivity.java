@@ -49,7 +49,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         if (v == btn) {
             SpotsDialog dialog = new SpotsDialog(this);
-            dialog.show();
+            dialog.withSpotNumber(3)
+                    .withTitle("updating")
+                    .show();
         }
     }
 }

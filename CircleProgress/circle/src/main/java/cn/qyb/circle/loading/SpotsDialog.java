@@ -21,6 +21,7 @@ public class SpotsDialog extends Dialog {
 
     private int count = 5;
     private AnimatorPlayer mPlayer;
+    private int progressWidth;
 
     public SpotsDialog(Context context) {
         super(context);
@@ -31,12 +32,12 @@ public class SpotsDialog extends Dialog {
     private void initViews(Context context) {
         mProgress = (FrameLayout) findViewById(R.id.progress);
         mTitle = (TextView) findViewById(R.id.dialog_title);
-        dots = new DotView[count];
-        init(context);
+        progressWidth = getScreenWidth(context);
+//        init();
     }
 
-    private void init(Context context) {
-        int progressWidth = getScreenWidth(context);
+    private void init() {
+        dots = new DotView[count];
         for (int i = 0; i < dots.length; i++) {
             DotView view = new DotView(getContext());
             view.setTarget(progressWidth);
@@ -88,10 +89,21 @@ public class SpotsDialog extends Dialog {
         return this;
     }
 
+    public SpotsDialog withSpotNumber(int number) {
+        count = number;
+        return this;
+    }
+
     public int getScreenWidth(Context context) {
         WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         manager.getDefaultDisplay().getMetrics(metrics);
         return metrics.widthPixels;
+    }
+
+    @Override
+    public void show() {
+        init();
+        super.show();
     }
 }
