@@ -13,6 +13,7 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 import cn.qyb.circle.R;
+import cn.qyb.circle.utils.ScreenUtils;
 
 public class SpotsDialog extends Dialog {
 
@@ -43,8 +44,7 @@ public class SpotsDialog extends Dialog {
         mProgress = (FrameLayout) findViewById(R.id.progress);
         mTitle = (TextView) findViewById(R.id.dialog_title);
         mColors = new int[]{Color.BLUE};
-        //TODO change to dialog width
-        mDialogWidth = getScreenWidth(context);
+        mDialogWidth = ScreenUtils.getScreenWidth(context);
     }
 
     private void init() {
@@ -117,13 +117,6 @@ public class SpotsDialog extends Dialog {
     public SpotsDialog withSpotRadius(int radius) {
         mSpotRadius = radius;
         return this;
-    }
-
-    public int getScreenWidth(Context context) {
-        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics metrics = new DisplayMetrics();
-        manager.getDefaultDisplay().getMetrics(metrics);
-        return metrics.widthPixels;
     }
 
     @Override
