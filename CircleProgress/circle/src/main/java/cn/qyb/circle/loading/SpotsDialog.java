@@ -3,9 +3,7 @@ package cn.qyb.circle.loading;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.util.DisplayMetrics;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -76,18 +74,6 @@ public class SpotsDialog extends Dialog {
         return animators;
     }
 
-    @Override
-    public void dismiss() {
-        stopAnimation();
-        super.dismiss();
-    }
-
-    @Override
-    public void cancel() {
-        stopAnimation();
-        super.cancel();
-    }
-
     private void stopAnimation() {
         if (mPlayer != null && mPlayer.isPlaying()) {
             mPlayer.stop();
@@ -123,5 +109,11 @@ public class SpotsDialog extends Dialog {
     public void show() {
         init();
         super.show();
+    }
+
+    @Override
+    protected void onStop() {
+        stopAnimation();
+        super.onStop();
     }
 }
